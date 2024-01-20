@@ -13,4 +13,17 @@ class PonenteService
     {
         return $this->ponenteRepository->creaPonente($ponente);
     }
+
+    public function editaPonente(Ponente $ponente){
+        return $this->ponenteRepository->editaPonente($ponente);
+    }
+
+    public function borraPonente(Ponente $ponente){
+        return $this->ponenteRepository->borraPonente($ponente);
+    }
+
+    public function listaPonentesAll()
+    {
+        return $this->ponenteRepository->listaPonentesAll();
+    }
 }

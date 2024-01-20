@@ -8,7 +8,7 @@ use controllers\APIPonenteController,
 
 use lib\Router;
 class Routes{
-    const PATH="/cursoAPI";
+    const PATH="/CursoAPI";
 
     /**
      * Obtiene las rutas de la aplicacion
@@ -23,6 +23,15 @@ class Routes{
     // PAGINA PRINCIPAL
         $router->post(self::PATH.'/creaPonente', function () use ($APIPonenteController){
             $APIPonenteController->creaPonente();
+        });
+        $router->put(self::PATH.'/editaPonente', function () use ($APIPonenteController){
+            $APIPonenteController->editaPonente();
+        });
+        $router->delete(self::PATH.'/borraPonente', function () use ($APIPonenteController){
+            $APIPonenteController->borraPonente();
+        });
+        $router->get(self::PATH.'/listaPonentes', function () use ($APIPonenteController){
+            $APIPonenteController->listaPonentesAll();
         });
 
 

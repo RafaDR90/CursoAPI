@@ -106,6 +106,12 @@ class Router
             case 'post':
                 $this->handleRoute($this->postRoutes);
                 break;
+            case 'put':
+                $this->handleRoute($this->putRoutes);
+                break;
+            case 'delete':
+                $this->handleRoute($this->deleteRoutes);
+                break;
             // Similar for PUT, PATCH, DELETE
             default:
                 //

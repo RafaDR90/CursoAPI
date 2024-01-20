@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'yes/curso-api',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'cc42a3e8f99fc23ad350874ef9c14f79ae9f0377',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -74,9 +74,9 @@
             'dev_requirement' => false,
         ),
         'yes/curso-api' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'cc42a3e8f99fc23ad350874ef9c14f79ae9f0377',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
