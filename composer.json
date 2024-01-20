@@ -1,0 +1,26 @@
+{
+    "name": "yes/curso-api",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Curso\\": "src/",
+            "controllers\\": "src/controllers/",
+            "services\\": "src/services/",
+            "repositoris\\": "src/repositoris/",
+            "models\\": "src/models/",
+            "lib\\": "src/lib/",
+            "routes\\": "src/routes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "RafaelDR",
+            "email": "rafa18220delgado@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.5",
+        "firebase/php-jwt": "^6.10"
+    }
+}
