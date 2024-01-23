@@ -4,11 +4,14 @@ namespace routes;
 use controllers\APIPonenteController,
     lib\ResponseHttp,
     lib\Security,
-    controllers\AuthController;
+    controllers\AuthController,
+    controllers\UsuarioController,
+    lib\Pages;
 
 use lib\Router;
 class Routes{
     const PATH="/CursoAPI";
+
 
     /**
      * Obtiene las rutas de la aplicacion
@@ -16,11 +19,18 @@ class Routes{
      */
     public static function getRoutes(){
     $router=new Router();
+    $pages=new Pages();
 
     // CREO CONTROLADORES
     $APIPonenteController=new APIPonenteController();
+    $usuarioController=new UsuarioController();
 
     // PAGINA PRINCIPAL
+    $router->get(self::PATH, function () use ($usuarioController){
+        $usuarioController->showLandingPage();
+        });
+
+    //PONENTE CRUD
         $router->post(self::PATH.'/creaPonente', function () use ($APIPonenteController){
             $APIPonenteController->creaPonente();
         });
