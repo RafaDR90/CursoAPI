@@ -1,7 +1,9 @@
 <?php
 namespace controllers;
 
-use lib\Pages;
+use lib\Pages,
+    utils\Utils;
+use Utils\ValidationUtils;
 
 class UsuarioController{
     private Pages $pages;
@@ -10,9 +12,18 @@ class UsuarioController{
         $this->pages=new Pages();
     }
 
-    public function showLandingPage():void{
-        ob_start();
-        $this->pages->render('landingPage/LandingPageView');
-        ob_end_flush();
+    public function showRegister()
+    {
+        if (Utils::isLogued()){
+            $this->pages->render('landingPage/LandingPageView');
+            exit();
+        }
+        if ($_SERVER["REQUEST_METHOD"]!="POST"){
+            $this->pages->render('usuario/RegisterView');
+            exit();
+        }
+        $email=ValidationUtils::sanidarStringFiltro($_POST['email']);
+        $password=ValidationUtils::sanidarStringFiltro($_POST['password']);
+
     }
 }

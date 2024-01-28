@@ -9,7 +9,8 @@
             "repositoris\\": "src/repositoris/",
             "models\\": "src/models/",
             "lib\\": "src/lib/",
-            "routes\\": "src/routes/"
+            "routes\\": "src/routes/",
+            "utils\\": "src/utils/"
         }
     },
     "authors": [

@@ -5,7 +5,7 @@ use lib\ResponseHttp,
     models\Ponente,
     services\PonenteService;
 
-ResponseHttp::getCabeceras('POST');
+
 class APIPonenteController{
     private PonenteService $ponenteService;
     public function __construct()
@@ -15,6 +15,7 @@ class APIPonenteController{
 
     public function creaPonente()
     {
+        ResponseHttp::getCabeceras('POST');
         $data=json_decode(file_get_contents("php://input"));
         if (!empty($data->nombre) && !empty($data->apellidos) && !empty($data->email) && !empty($data->imagen) && !empty($data->tags) && !empty($data->redes)){
             $ponente=new Ponente(null, $data->nombre, $data->apellidos, $data->email, $data->imagen, $data->tags, $data->redes);
@@ -27,6 +28,7 @@ class APIPonenteController{
     }
 
     public function editaPonente(){
+        ResponseHttp::getCabeceras('PUT');
         $data=json_decode(file_get_contents("php://input"));
         if (!empty($data->id) && !empty($data->nombre) && !empty($data->apellidos) && !empty($data->email) && !empty($data->imagen) && !empty($data->tags) && !empty($data->redes)){
             $ponente=new Ponente($data->id, $data->nombre, $data->apellidos, $data->email, $data->imagen, $data->tags, $data->redes);
@@ -42,6 +44,7 @@ class APIPonenteController{
 
     public function borraPonente()
     {
+        ResponseHttp::getCabeceras('DELETE');
         $data=json_decode(file_get_contents("php://input"));
         if (!empty($data->id)){
             $ponente=new Ponente($data->id);
@@ -57,6 +60,7 @@ class APIPonenteController{
 
     public function listaPonentesAll()
     {
+        ResponseHttp::getCabeceras('GET');
         $ponentes=$this->ponenteService->listaPonentesAll();
         if (isset($ponentes)){
             ResponseHttp::statusMessage(200, json_encode($ponentes));

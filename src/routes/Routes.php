@@ -8,6 +8,7 @@ use controllers\APIPonenteController,
     controllers\UsuarioController,
     lib\Pages;
 
+use FontLib\Table\Type\post;
 use lib\Router;
 class Routes{
     const PATH="/CursoAPI";
@@ -19,7 +20,6 @@ class Routes{
      */
     public static function getRoutes(){
     $router=new Router();
-    $pages=new Pages();
 
     // CREO CONTROLADORES
     $APIPonenteController=new APIPonenteController();
@@ -27,7 +27,16 @@ class Routes{
 
     // PAGINA PRINCIPAL
     $router->get(self::PATH, function () use ($usuarioController){
-        $usuarioController->showLandingPage();
+        $pages=new Pages();
+        $pages->render('landingPage/LandingPageView');
+        });
+
+    //USUARIO
+        $router->get(self::PATH."/registro", function () use ($usuarioController){
+            $usuarioController->showRegister();
+        });
+        $router->post(self::PATH."/registro", function () use ($usuarioController){
+            $usuarioController->showRegister();
         });
 
     //PONENTE CRUD
@@ -47,6 +56,7 @@ class Routes{
 
     // LA PAGINA NO SE ENCUENTRA
         $router->any('/404', function (){
+            die("rutanoexiste");
             header('Location: ' . self::PATH . '/error');
             });
         $router->get(self::PATH.'/error', function (){
