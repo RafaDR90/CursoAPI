@@ -38,6 +38,18 @@ class Routes{
         $router->post(self::PATH."/registro", function () use ($usuarioController){
             $usuarioController->showRegister();
         });
+        $router->get(self::PATH.'/confirmar-cuenta/$token/$email', function (string $token) use ($usuarioController){
+            $usuarioController->autentificarToken($token);
+        });
+        $router->get(self::PATH.'/login', function () use ($usuarioController){
+            $usuarioController->showLogin();
+        });
+        $router->post(self::PATH.'/login', function () use ($usuarioController){
+            $usuarioController->showLogin();
+        });
+        $router->get(self::PATH.'/cierra-sesion', function () use ($usuarioController){
+            $usuarioController->logout();
+        });
 
     //PONENTE CRUD
         $router->post(self::PATH.'/creaPonente', function () use ($APIPonenteController){

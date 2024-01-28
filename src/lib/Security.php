@@ -1,6 +1,7 @@
 <?php
 namespace lib;
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT,
     Firebase\JWT\Key,
     PDOException;
@@ -9,7 +10,7 @@ class Security
 {
     final public static function encryptPassword(string $password):string
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        return password_hash($password, PASSWORD_BCRYPT, ['cost'=>4]);
     }
 
     final public static function validatePassword(string $password, string $passwordHash):bool
@@ -26,7 +27,7 @@ class Security
         $time = strtotime("now");
         $token=array(
             "iat" => $time,
-            "exp" => $time + (3600),
+            "exp" => $time + (1800),
             "data" => $datos
         );
         return JWT::encode($token, $key,'HS256');
@@ -34,16 +35,28 @@ class Security
 
     final public static function getTokenData(){
         $headers=apache_request_headers();
-        if (isset($headers['Authorization'])){
-            return $response['message']=json_decode(ResponseHttp::statusMessage(403,"Acceso denegado"));
+        if (!isset($headers['Authorization'])){
+            return false;
         }
         try {
             $authorizationArr = explode(' ', $headers['Authorization']);
-            $token = $authorizationArr[1];
+            $token = $authorizationArr[0];
             return $decodedToken = JWT::decode($token, new Key(Security::claveSecreta(), 'HS256'));
         } catch (PDOException) {
-            return $response['message']=json_decode(ResponseHttp::statusMessage(401,"Token expirado o invalido"));
+            return false;
         }
     }
+    final public static function getTokenDataOf($token){
+        try {
+            return JWT::decode($token, new Key(Security::claveSecreta(), 'HS256'));
+        } catch (ExpiredException) {
+            return false;
+        }catch (PDOException) {
+            return false;
+        }
+    }
+
+
+
 
 }

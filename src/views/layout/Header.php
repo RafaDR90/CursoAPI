@@ -11,8 +11,14 @@
             <li><a href="<?=BASE_URL?>">Inicio</a></li>
             <li><a href="<?=BASE_URL?>registro">Registro</a></li>
             <li><a href="<?=BASE_URL?>login">Login</a></li>
+            <li><a href="<?=BASE_URL?>cierra-sesion">Cerrar sesion</a></li>
         </ul>
     </nav>
-
+    <?php
+    if (isset($error)): ?>
+    <p class="error"><?=$error?></p>
+    <?php elseif (isset($exito)): ?>
+    <p class="exito"><?=$exito?></p>
+    <?php endif; ?>
 </header>
 <main>

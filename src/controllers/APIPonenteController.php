@@ -4,6 +4,7 @@ use lib\ResponseHttp,
     lib\BaseDeDatos,
     models\Ponente,
     services\PonenteService;
+use lib\Security;
 
 
 class APIPonenteController{
@@ -16,6 +17,16 @@ class APIPonenteController{
     public function creaPonente()
     {
         ResponseHttp::getCabeceras('POST');
+        //comprueba token
+        $tokenData=Security::getTokenData();
+
+        if (!$tokenData){
+            ResponseHttp::statusMessage(401, "No autorizado");
+            exit();
+        }
+        var_dump('Estoy en un die de APIPonenteController donde me toca validar los datos'/*$tokenData*/);die();
+        //comprueba datos
+
         $data=json_decode(file_get_contents("php://input"));
         if (!empty($data->nombre) && !empty($data->apellidos) && !empty($data->email) && !empty($data->imagen) && !empty($data->tags) && !empty($data->redes)){
             $ponente=new Ponente(null, $data->nombre, $data->apellidos, $data->email, $data->imagen, $data->tags, $data->redes);

@@ -80,4 +80,19 @@ class ResponseHttp{
         header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
         header('Access-Control-Max-Age: 3600');
     }
+
+    public static function validaToken()
+    {
+        $headers = apache_request_headers();
+        if (!isset($headers['Authorization'])){
+            return false;
+        }
+        $token=$headers['Authorization'];
+        $token=substr($token, 7);
+        $tokenData=Security::getTokenDataOf($token);
+        if (!$tokenData){
+            return false;
+        }
+        return $tokenData;
+    }
 }
