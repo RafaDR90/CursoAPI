@@ -84,15 +84,22 @@ class ResponseHttp{
     public static function validaToken()
     {
         $headers = apache_request_headers();
-        if (!isset($headers['Authorization'])){
+        if (!isset($headers['Authorization'])) {
             return false;
         }
-        $token=$headers['Authorization'];
-        $token=substr($token, 7);
-        $tokenData=Security::getTokenDataOf($token);
-        if (!$tokenData){
+        $authorizationHeader = $headers['Authorization'];
+        // Verificar si el encabezado comienza con "Bearer"
+        if (strpos($authorizationHeader, 'Bearer') !== 0) {
             return false;
         }
+        // Extraer el token de acceso
+        $token = substr($authorizationHeader, 7);
+        // Validar el token
+        $tokenData = Security::getTokenDataOf($token);
+        if (!$tokenData) {
+            return false;
+        }
+
         return $tokenData;
     }
 }

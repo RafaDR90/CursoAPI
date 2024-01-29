@@ -3,7 +3,7 @@
         'name' => 'yes/curso-api',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '582ac6bc2e8af9e6458e1eb37bec8100b999b480',
+        'reference' => '7d48e50e4c296a58db51a4179cb802ce32ca5235',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -85,7 +85,7 @@
         'yes/curso-api' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '582ac6bc2e8af9e6458e1eb37bec8100b999b480',
+            'reference' => '7d48e50e4c296a58db51a4179cb802ce32ca5235',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

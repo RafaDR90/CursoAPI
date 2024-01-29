@@ -19,8 +19,7 @@ class APIPonenteController{
     {
         ResponseHttp::getCabeceras('POST');
 
-        $tokenData=Security::getTokenData();
-
+        $tokenData=ResponseHttp::validaToken();
         if (!$tokenData){
             ResponseHttp::statusMessage(401, "No autorizado");
             exit();

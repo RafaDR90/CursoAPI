@@ -16,6 +16,7 @@
             <li><a href="<?=BASE_URL?>registro">Registro</a></li>
             <li><a href="<?=BASE_URL?>login">Login</a></li>
             <?php else: ?>
+            <li><a href="<?=BASE_URL?>vista-token">Ver token</a></li>
             <li><a href="<?=BASE_URL?>cierra-sesion">Cerrar sesion</a></li>
             <?php endif; ?>
         </ul>

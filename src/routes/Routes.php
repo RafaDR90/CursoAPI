@@ -26,7 +26,7 @@ class Routes{
     $usuarioController=new UsuarioController();
 
     // PAGINA PRINCIPAL
-    $router->get(self::PATH, function () use ($usuarioController){
+    $router->get(self::PATH, function () {
         $pages=new Pages();
         $pages->render('landingPage/LandingPageView');
         });
@@ -50,7 +50,14 @@ class Routes{
         $router->get(self::PATH.'/cierra-sesion', function () use ($usuarioController){
             $usuarioController->logout();
         });
-
+    //CREA TOKEN
+        $router->get(self::PATH.'/actualiza-token', function () use ($usuarioController){
+            $usuarioController->creaToken();
+        });
+        $router->get(self::PATH.'/vista-token',function(){
+            $pages=new Pages();
+            $pages->render('usuario/TokenView');
+        });
     //PONENTE CRUD
         $router->post(self::PATH.'/creaPonente', function () use ($APIPonenteController){
             $APIPonenteController->creaPonente();

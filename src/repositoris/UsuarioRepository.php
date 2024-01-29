@@ -110,13 +110,12 @@ class UsuarioRepository
         }
     }
 
-    public function actualizaToken($userId,$token,$token_exp,$tokenId)
+    public function actualizaToken($userId,$token,$token_exp,)
     {
         try {
-            $update = $this->db->prepara("UPDATE usuarios SET token=:token, token_exp=:token_exp, token_id=:token_id WHERE id=:id");
+            $update = $this->db->prepara("UPDATE usuarios SET token=:token, token_exp=:token_exp WHERE id=:id");
             $update->bindValue(':token', $token);
             $update->bindValue(':token_exp', $token_exp);
-            $update->bindValue(':token_id', $tokenId);
             $update->bindValue(':id', $userId);
             $update->execute();
             $resultado=true;
