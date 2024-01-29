@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
     `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     `rol` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
     `confirmado` boolean DEFAULT FALSE,
+    `token_id` bigint(20) DEFAULT NULL,
     `token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `token_exp` timestamp NULL DEFAULT NULL,
 
@@ -94,3 +95,6 @@ insert
   "redes": "Linkedin;Twitter"
 }
 */
+select * from ponentes;
+select * from usuarios;
+delete from usuarios;

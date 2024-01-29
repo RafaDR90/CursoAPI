@@ -1,3 +1,6 @@
+<?php if (session_status()===PHP_SESSION_NONE){
+    session_start();
+} ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,9 +12,12 @@
     <nav class="navPrincipal">
         <ul style="display: flex; gap: 15px">
             <li><a href="<?=BASE_URL?>">Inicio</a></li>
+            <?php if (!isset($_SESSION['usuario'])):?>
             <li><a href="<?=BASE_URL?>registro">Registro</a></li>
             <li><a href="<?=BASE_URL?>login">Login</a></li>
+            <?php else: ?>
             <li><a href="<?=BASE_URL?>cierra-sesion">Cerrar sesion</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
     <?php

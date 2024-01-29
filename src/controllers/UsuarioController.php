@@ -103,9 +103,10 @@ class UsuarioController{
             exit();
         }
         //email y contraseña validos, se crea un nuevo token y se guarda en la bd
-        $newToken=Security::createToken(Security::claveSecreta(),['email'=>$userInBd[0]['email'],'rol'=>$userInBd[0]['rol']]);
+        $tokenId=Security::generarTokenId();
+        $newToken=Security::createToken(Security::claveSecreta(),['email'=>$userInBd[0]['email'],'rol'=>$userInBd[0]['rol'],'token_id'=>$tokenId]);
         $newTokenExp=date("Y-m-d H:i:s", time() + 1800);
-        $updToken=$this->usuarioRepository->actualizaToken($userInBd[0]['id'], $newToken, $newTokenExp);
+        $updToken=$this->usuarioRepository->actualizaToken($userInBd[0]['id'], $newToken, $newTokenExp,$tokenId);
         if (!$updToken){
             $this->pages->render('usuario/LoginView', ['error'=>'Error al actualizar loguear el usuario, contacte con soporte tecnico']);
             exit();

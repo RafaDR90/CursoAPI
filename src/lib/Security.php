@@ -36,14 +36,16 @@ class Security
     final public static function getTokenData(){
         $headers=apache_request_headers();
         if (!isset($headers['Authorization'])){
-            return false;
+            return ResponseHttp::statusMessage(401, "No autorizado");
         }
         try {
             $authorizationArr = explode(' ', $headers['Authorization']);
             $token = $authorizationArr[0];
-            return $decodedToken = JWT::decode($token, new Key(Security::claveSecreta(), 'HS256'));
+            return JWT::decode($token, new Key(Security::claveSecreta(), 'HS256'));
         } catch (PDOException) {
-            return false;
+            return ResponseHttp::statusMessage(401, "No autorizado");
+        } catch (ExpiredException) {
+            return ResponseHttp::statusMessage(401, "Token expirado");
         }
     }
     final public static function getTokenDataOf($token){
@@ -54,6 +56,14 @@ class Security
         }catch (PDOException) {
             return false;
         }
+    }
+
+    public static function generarTokenId() {
+        $numeroAleatorio = mt_rand(1, PHP_INT_MAX);
+        $numeroAleatorio = abs($numeroAleatorio);
+        $numeroAleatorio = $numeroAleatorio % 100000000000000000000; // Asegurar que esté dentro del rango bigint(20)
+
+        return $numeroAleatorio;
     }
 
 

@@ -98,7 +98,6 @@ class UsuarioRepository
             $select = $this->db->prepara("SELECT * FROM usuarios WHERE email=:email");
             $select->bindValue(':email', $email);
             $select->execute();
-            //hace un fetch assoc y lo devuelve
             $resultado=$select->fetchAll(\PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $resultado=false;
@@ -111,12 +110,13 @@ class UsuarioRepository
         }
     }
 
-    public function actualizaToken($userId,$token,$token_exp)
+    public function actualizaToken($userId,$token,$token_exp,$tokenId)
     {
         try {
-            $update = $this->db->prepara("UPDATE usuarios SET token=:token, token_exp=:token_exp WHERE id=:id");
+            $update = $this->db->prepara("UPDATE usuarios SET token=:token, token_exp=:token_exp, token_id=:token_id WHERE id=:id");
             $update->bindValue(':token', $token);
             $update->bindValue(':token_exp', $token_exp);
+            $update->bindValue(':token_id', $tokenId);
             $update->bindValue(':id', $userId);
             $update->execute();
             $resultado=true;
@@ -128,4 +128,6 @@ class UsuarioRepository
             return $resultado;
         }
     }
+
+
 }
