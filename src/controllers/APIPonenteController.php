@@ -19,6 +19,7 @@ class APIPonenteController{
     {
         ResponseHttp::getCabeceras('POST');
 
+        //Valido token
         $tokenData=ResponseHttp::validaToken();
         if (!$tokenData){
             ResponseHttp::statusMessage(401, "No autorizado");
@@ -26,32 +27,36 @@ class APIPonenteController{
         }
 
         $usuarioRepository=new UsuarioRepository();
-        //Si el email no esta en la BD hace un 401
+
+        //extraigo el usuario con el email del token
         $usuario=$usuarioRepository->getUsuarioPorEmail($tokenData->data->email);
+
+        //Si el email no esta en la BD hace un 401
         if (!$usuario){
             ResponseHttp::statusMessage(401, "No autorizado");
             exit();
         }
-        if ($usuario[0]['token_id']!=$tokenData->data->token_id){
+        //compruebo que el token no este caducado
+        $fechaToken= \DateTime::createFromFormat('Y-m-d H:i:s', $usuario[0]['token_exp']);
+        $fechaActual=new \DateTime();
+        if($fechaToken->getTimestamp()<$fechaActual->getTimestamp()){
             ResponseHttp::statusMessage(401, "No autorizado");
             exit();
         }
+        //expiro el token en la BD
+        $usuarioRepository->expiraToken($usuario[0]['id']);
 
         $data=json_decode(file_get_contents("php://input"));
         if (!empty($data->nombre) && !empty($data->apellidos) && !empty($data->email) && !empty($data->imagen) && !empty($data->tags) && !empty($data->redes)){
             $ponente=new Ponente(null, $data->nombre, $data->apellidos, $data->email, $data->imagen, $data->tags, $data->redes);
-            if ($this->ponenteService->creaPonente($ponente)){
-                $nuevoTokenId=Security::generarTokenId();
-                $nuevoToken=Security::createToken(Security::claveSecreta(), ['email'=>$usuario[0]['email'], 'rol'=>$usuario[0]['rol'], 'token_id'=>$nuevoTokenId]);
-                if (!$usuarioRepository->actualizaToken($usuario[0]['id'], $nuevoToken, date("Y-m-d H:i:s", time() + 1800), $nuevoTokenId)){
-                    ResponseHttp::statusMessage(503, "No se ha podido actualizar el token, vuelva a hacer login para obtener uno nuevo");
-                    exit();
-                }
-                ResponseHttp::statusMessage(201, "Ponente creado");
-                echo json_encode(['NuevoToken'=>$nuevoToken]);
-            }else{
-                ResponseHttp::statusMessage(503, "No se ha podido crear el ponente");
+            $res=$this->ponenteService->creaPonente($ponente);
+            if (!$res){
+                ResponseHttp::statusMessage(503, "No se ha podido crear el ponente, puede que ya exista");
+                exit();
             }
+            ResponseHttp::statusMessage(201, "Ponente creado");
+        }else{
+            ResponseHttp::statusMessage(503, "Faltan datos");
         }
     }
 

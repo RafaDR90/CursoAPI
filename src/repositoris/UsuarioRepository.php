@@ -128,5 +128,26 @@ class UsuarioRepository
         }
     }
 
+    public function expiraToken($uid)
+    {
+        $fechaActual = new \DateTime();
+
+        //le resto 1 dia a la fecha actual para que este expirado
+        $fechaExpirada = $fechaActual->sub(new \DateInterval('P1D'))->format('Y-m-d H:i:s');
+        try {
+            $update = $this->db->prepara("UPDATE usuarios SET token_exp=:token_exp WHERE id=:id");
+            $update->bindValue(':token_exp', $fechaExpirada);
+            $update->bindValue(':id', $uid);
+            $update->execute();
+            $resultado=true;
+        } catch (PDOException $e) {
+            $resultado=false;
+        } finally {
+            $update->closeCursor();
+            $this->db->cierraConexion();
+            return $resultado;
+        }
+    }
+
 
 }

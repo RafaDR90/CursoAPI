@@ -71,6 +71,7 @@ class UsuarioController{
     }
     public function autentificarToken($token)
     {
+        die("puta madre");
         $tokenData=Security::getTokenDataOf($token);
         $token=ValidationUtils::sanidarStringFiltro($token);
         if (!$tokenData){
